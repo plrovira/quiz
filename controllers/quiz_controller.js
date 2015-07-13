@@ -13,4 +13,7 @@ exports.answer = function(req, res){
 	}
 };
 
-
+// GET /author
+exports.author = function(req, res){
+	res.render('author', {nombre: 'Pere Lluís Rovira Sanllehí'});
+};
