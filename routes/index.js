@@ -8,9 +8,12 @@ router.get('/', function(req, res) {
   res.render('index', { title: 'Quiz' });
 });
 
+// Autoload de comandos con :quizId
+router.param('quizId', quizController.load);  // autoload :quizId
+
 router.get('/quizes', quizController.index);
 router.get('/quizes/:quizId(\\d+)', quizController.show);
-router.get('/quizes/:quizId(\\d+)/answer' quizController.answer);
+router.get('/quizes/:quizId(\\d+)/answer', quizController.answer);
 router.get('/author', quizController.author);
 /*router.get('/author',function(req, res){
 	res.render('author',{name: 'Pere Lluís Rovira Sanllehí'});
