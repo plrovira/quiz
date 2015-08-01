@@ -1,6 +1,7 @@
 <table>
    <% var ii; for (ii=0; ii < quizes.length; ii++) { %>                <tr>
-	<td><a href="/quizes/<%= quizes[ii].id %>"><%= quizes[ii].pregunta %></a></td>
+	<td style="color:blue;text-align:left"><%= quizes[ii].tema %></td>
+	<td style="text-align:left"><a href="/quizes/<%= quizes[ii].id %>"><%= quizes[ii].pregunta %></a></td>
 	<td><a href="/quizes/<%= quizes[ii].id %>/edit"><button>editar</button></a></td>
 	<td>
 		<form method="post" action="quizes/<%= quizes[ii].id %>?_method=delete">
@@ -10,4 +11,4 @@
 </tr> 
   <% } %>
 </table>
-<p><a href="/quizes/new"><button type="button">Crear pregunta</button></a></p>
+<a href="/quizes/new"><button type="button">Crear pregunta</button></a>

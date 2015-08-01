@@ -15,7 +15,7 @@ exports.load = function(req, res, next, quizId) {
 // GET  /quizes/new
 exports.new = function(req, res){
 	var quiz = models.Quiz.build(  // crea objeto quiz
-		{ pregunta: "Pregunta", respuesta: "Respuesta"}
+		{ tema: "Tema", pregunta: "Pregunta", respuesta: "Respuesta"}
 	);
 	res.render('quizes/new', {quiz: quiz, errors: []});
 };
@@ -31,7 +31,7 @@ exports.create = function(req, res){
 			res.render('quizes/new',{quiz: quiz, errors: err.errors});
 		  } else {
 			quiz // guarda en DB los campos pregunta y respuesta de quiz
-			.save({fields: ["pregunta", "respuesta"]})
+			.save({fields: ["tema", "pregunta", "respuesta"]})
 			.then(function(){res.redirect('/quizes')});
 		  } // Redireccion HTTP (URL relativo) lista de preguntas
 	  	}
@@ -95,6 +95,7 @@ exports.answer = function(req, res){
 
 // PUT /quizes/:id
 exports.update= function(req, res) {
+	req.quiz.tema = req.body.quiz.tema;	
 	req.quiz.pregunta = req.body.quiz.pregunta;
 	req.quiz.respuesta = req.body.quiz.respuesta;
 
@@ -106,7 +107,7 @@ exports.update= function(req, res) {
 				res.render('quizes/edit', {quiz: req.quiz, errors: err.errors});
 			}else {
 				req.quiz    //save:guarda campos pregunta y respuesta en DB
-				.save ({fields: ["pregunta", "respuesta"]})
+				.save ({fields: ["tema", "pregunta", "respuesta"]})
 				.then ( function(){ res.redirect('/quizes');});
 						// Redirección HTTP a la lista de preguntas URL relativo)
 			}
@@ -123,5 +124,5 @@ exports.destroy = function(req, res) {
 
 // GET /author
 exports.author = function(req, res){
-	res.render('author', {nombre: 'Pere Lluís Rovira Sanllehí'});
+	res.render('author', {nombre: 'Pere Lluís Rovira Sanllehí', errors: []});
 };
