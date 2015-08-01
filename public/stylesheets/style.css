@@ -12,6 +12,11 @@ body {
 	margin-bottom: 1px; 
 	color:black;}
 
+#ErrorMsgs {
+	color: red;
+	font-size: smaller;
+}
+
 section > div  {
 	padding: 20px;
 }
@@ -28,11 +33,6 @@ footer {
 
 nav span {
 	margin: 0px 10px 0px 0px;}
-}
-
-#ErrorMsgs {
-	color: red;
-	font-size: smaller;
 }
 
 a {
