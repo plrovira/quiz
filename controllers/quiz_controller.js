@@ -41,8 +41,23 @@ exports.create = function(req, res){
 
 
 // GET /quizes  muestra preguntas
-exports.index = function(req, res){
-	models.Quiz.findAll().then(function(quizes){
+exports.index = function(req, res, next){
+	var consulta = {};
+	if (req.query.search) {
+		consulta = {
+		  where: {
+			$or: [
+				{pregunta: {$like: "%" + req.query.search.replace(" ", '%') + "%"}},
+				{tema: {$like: "%" + req.query.search.replace(" ", '%') + "%"}}
+			]
+		  },
+		  order: [
+			 ['tema' , 'ASC'],
+			 ['pregunta' , 'ASC']
+		  ]
+		}
+	};
+	models.Quiz.findAll(consulta).then(function(quizes){
 		res.render('quizes/index', {quizes: quizes, errors: []});
 	}).catch(function(error) {next(error);})
 };
