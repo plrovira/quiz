@@ -30,6 +30,24 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //No se necesita: app.use('/users', users);
 
+//tiempo de sesion (solución de Juan Ignacio Gil  + Diego E - Ver foro)
+app.use(function(req, res, next) {
+    if(req.session.user){// si estamos en una sesion
+        if(!req.session.marcatiempo){//primera vez se pone la marca de tiempo
+            req.session.marcatiempo=(new Date()).getTime();
+        }else{
+            if((new Date()).getTime()-req.session.marcatiempo > 60000){//se pasó el tiempo y eliminamos la sesión (2min=120000ms)
+                delete req.session.user;     //eliminamos el usuario
+				req.session.marcatiempo=null;
+				res.redirect('/login');
+            }else{//hay actividad se pone nueva marca de tiempo
+                req.session.marcatiempo=(new Date()).getTime();
+            }
+        }
+    }
+    next();
+});
+
 // Helpers dinámicos:
 app.use(function(req, res, next){
 	// guardar path en session.redir para después de login

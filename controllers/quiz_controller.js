@@ -144,3 +144,29 @@ exports.destroy = function(req, res) {
 exports.author = function(req, res){
 	res.render('author', {nombre: 'Pere Lluís Rovira Sanllehí', errors: []});
 };
+
+// GET /quizes/statistics
+exports.statistics = function(req, res){
+	models.Quiz.findAll().then(function(stadquery1){
+		var TotPreguntas = stadquery1.length;
+		models.Comment.findAll().then(function(stadquery2){
+			var TotComentarios = stadquery2.length;
+			models.Quiz.findAll({include: [{model: models.Comment, required: true}]}).then(function(stadquery3){
+				var PregConCom = stadquery3.length;
+				var PregSinCom = TotPreguntas - PregConCom;
+				var Media = 0;
+				if (TotPreguntas !=0) Media= (TotComentarios / TotPreguntas).toFixed(2);
+				res.render('quizes/statistics', {
+					TotalPreguntas: TotPreguntas, 
+					TotalComentarios: TotComentarios,
+					MediaComxPreg: Media, 
+					PreguntasConCom: PregConCom, 
+					PreguntasSinCom: PregSinCom,
+					errors: []
+				});
+			});
+		});
+		
+	});
+};
+

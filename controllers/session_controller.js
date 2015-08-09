@@ -37,6 +37,7 @@ exports.create = function(req,res){
 // DELETE /logout   -- Destruir sesión
 exports.destroy = function(req,res) {
 	delete req.session.user;
+	req.session.marcatiempo = null;
 	res.redirect(req.session.redir.toString()); // redirect a path anterior a login
 };
 
